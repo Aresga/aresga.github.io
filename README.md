@@ -87,6 +87,12 @@ You may need to update the API base URL when prompted or authentication header i
 
 ---
 
+
+## Live Demo
+
+You can preview the Dashboard live on GitHub Pages: [Here ](https://aresga.github.io/)
+
+
 ## Screenshots
 
 ![Dashboard Screenshot](screenshots/screenshotdarkmode.png)
