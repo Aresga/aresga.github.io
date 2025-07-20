@@ -19,17 +19,18 @@
 <body>
     <header>
         <!-- <img src="logo1.png" alt="Logo" class="logo"> -->
+		<button id="dark-mode-toggle" class="dark-mode-button">
+			<span class="icon">🌙</span> Dark Mode 
+		</button>
         <div class="header-text"> 
             <h1>AirGuardian Dashboard</h1>
             <p>Drone monitoring and violation detection</p>
         </div>
         <div class="header-controls">
-            <button id="dark-mode-toggle" class="dark-mode-button">
-                <span class="icon">🌙</span> Dark Mode 
-            </button>
-            <buttun id="health-check" class="health-button">
-                <span class="icon">🏥</span>
-            </buttun>
+			<button id="health-check" class="health-button">
+				<span class="icon">🏥</span>
+			</button> <br>
+			<span id="api-status" class="api-status unknown">Unknown</span>
 
         </div>
     </header>
@@ -44,7 +45,7 @@
                         <button id="refresh-drones" class="refresh-button">
                             <span class="icon">⟳</span> Refresh
                         </button>
-                        <span id="api-status" class="api-status unknown">Unknown</span>
+                        <!-- <span id="api-status" class="api-status unknown">Unknown</span> -->
                         <span id="drone-status" class="status-message">Initializing...</span>
                     </div>
                 </div>
@@ -81,7 +82,7 @@
     </main>
 
     <footer>
-        <p>AirGuardian &copy; 2025 - Realtime Drone Monitoring System</p>
+        <p>AirGuardian - Realtime Drone Monitoring System</p>
         <p class="disclaimer">Red circle represents a No-Fly Zone (NFZ) with 1000 unit radius</p>
         <!-- <p>Find sources <a href="https://github.com/Aresga" target="_blank">GitHub</a></p> -->
     </footer>

@@ -39,23 +39,33 @@ h1, h2, h3 {
 header {
     background-color: #ffffff;
     color: #000000;
-    padding: 20px;
+    padding: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	position: relative;
 }
 
-.logo {
-    height: 60px;
-    margin-right: 20px;
-}
 
 .header-text {
+    position: absolute;     
+    left: 0;                
+    right: 0;                
+    margin-left: auto;      
+    margin-right: auto;      
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     flex-grow: 1;
+    pointer-events: none;    /* Optional: allows clicks to pass through */
+    z-index: 1;              /* Optional: ensures it's above background */
+}
+
+.logo {
+	height: 60px;
+	margin-right: 20px;
 }
 
 .header-controls {
@@ -240,7 +250,7 @@ main {
 /* Violations */
 .violations-container {
     display: flex;
-	
+
     flex-direction: column;
 }
 
