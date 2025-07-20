@@ -1,3 +1,5 @@
+let API_BASE_URL = prompt("Enter the API base URL:", "http://localhost:8000") || "http://192.168.1.69:8000";
+
 // Wait for DOM () to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // real-world location for the map background
@@ -127,8 +129,9 @@ document.addEventListener('DOMContentLoaded', function() {
     async function updateDrones() {
         try {
             document.getElementById('drone-status').textContent = 'Refreshing drone data...';
-            
-            const response = await fetch('http://192.168.1.69:8000/drones');
+
+            const response = await fetch(`${API_BASE_URL}/drones`);
+            // const response = await fetch('http://192.168.1.69:8000/drones');
             if (!response.ok) throw new Error(`HTTP error ${response.status}`);
             const drones = await response.json();
 
@@ -243,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				'X-Secret':'clearsky13'
 			};
 
-            const response = await fetch('http://192.168.1.69:8000/nfz', { headers });
+            const response = await fetch(`${API_BASE_URL}/nfz`, { headers });
 
 			console.log('Sending request to:', 'http://192.168.1.69:8000/nfz');
 			console.log('With headers:', headers);
@@ -326,7 +329,7 @@ async function checkAPIHealth() {
         button.disabled = true;
         button.innerHTML = '<span class="icon">⏳</span> Checking...';
         
-        const response = await fetch('http://192.168.1.69:8000/health', {
+        const response = await fetch(`${API_BASE_URL}/health`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
