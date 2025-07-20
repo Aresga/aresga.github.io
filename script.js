@@ -1,8 +1,5 @@
-// let API_BASE_URL = "http://localhost:8000";
-// let API_KEY = "clearsky13";
-
 let API_BASE_URL = prompt("Enter the API base URL:", "http://localhost:8000") || "http://localhost:8000";
-let API_KEY = prompt("Enter the API key:", "clearsky13") || "clearsky13";
+let API_KEY = prompt("Enter the API key:", "your-secret-phrase-here") || "your-secret-phrase-here";
 
 // Wait for DOM (doc obj model) to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -26,17 +23,15 @@ document.addEventListener('DOMContentLoaded', function() {
         touchZoom: true,
         zoomAnimation: true,
         fadeAnimation: true
-
-		
     });
 
-        // Dark mode toggle
+    // Dark mode toggle
     const darkModeButton = document.getElementById('dark-mode-toggle');
     
     darkModeButton.addEventListener('click', function() {
         document.body.classList.toggle('dark-mode');
     
-        // Optionally, save preference
+        // save preference
         if (document.body.classList.contains('dark-mode')) {
             localStorage.setItem('darkMode', 'enabled');
             darkModeButton.textContent = '☀️ Light Mode';
@@ -70,8 +65,8 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     L.control.layers(baseMaps).addTo(map);
 
-    // Define the NFZ center in real-world coordinates (slightly offset from map center)
-    const nfzCenter = [realWorldCenter[0], realWorldCenter[1]]; // Small offset for visibility
+    // Define the NFZ center in real-world coordinates
+    const nfzCenter = [realWorldCenter[0], realWorldCenter[1]];
 
     // Conversion factor: 1 simulation unit = X meters in real world
     const simulationScale = 1; // 1 simulation unit = 1 meter
@@ -205,12 +200,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     const droneIcon = L.divIcon({
                         html: `<div class="drone-icon" style="background-color: ${color};">${ownerIdDisplay}</div>`,
                         className: 'drone-marker',
-                        iconSize: [15, 15] // Slightly smaller icons
+                        iconSize: [15, 15]
                     });
                     
+					// Create a new marker and add it to the map
                     droneMarkers[drone.id] = L.marker(position, { 
                         icon: droneIcon,
-                        zIndexOffset: 1000
+                        zIndexOffset: 1000 // Ensure drones are on top of the NFZ circle
                     })
 					.bindPopup(`
 						<div class="drone-popup">
@@ -270,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('violation-status').textContent = 'Violations loaded successfully';
             document.getElementById('violation-count').textContent = violations.length;
             
-            // Clear the list before adding new items
+            // Clear the list before adding new items, drone violations are avaible only 24 hours
             violationsList.innerHTML = ''; 
 
             if (violations.length === 0) {
@@ -288,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const listItem = document.createElement('li');
                 const timestamp = new Date(v.timestamp).toLocaleString();
                 
-                // Create a more structured violation item
+                // Create structured violation item
                 const html = `
                     <div class="violation-item">
                         <div class="violation-time">${timestamp}</div>
@@ -316,14 +312,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Update the violations every 30 seconds
+    // Update the violations every 5 seconds
     const violationUpdateInterval = setInterval(updateViolations, 5000);
     updateViolations(); // Initial call
 
     // Add event listeners for manual refresh buttons
     document.getElementById('refresh-drones').addEventListener('click', function() {
         updateDrones();
-        // Real map allows zooming and panning for better drone visibility
     });
     document.getElementById('refresh-violations').addEventListener('click', updateViolations);
 });
@@ -377,6 +372,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check API health on startup
     setTimeout(checkAPIHealth, 1000);
     
-    // Optional: Check health every 30 seconds automatically
+    // Check health every 30 seconds automatically
     setInterval(checkAPIHealth, 30000);
 });

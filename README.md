@@ -19,6 +19,7 @@ This dashboard is intended as a companion to the AirGuardian backend, making it 
 
 ## Features
 
+- **Prompt for API URL and API key**: localhost:8000 by default
 - **Live Map Panel:** Visualizes drone positions and status in real time
 - **Violations Panel:** Lists recent NFZ violations with details and timestamps
 - **Dark Mode:** Toggleable for comfortable viewing
@@ -65,13 +66,13 @@ This dashboard expects the AirGuardian backend API to be running and accessible 
 - `GET /drones` — Fetches live drone data
 - `GET /nfz` — Retrieves recent No-Fly Zone violation records (requires `X-Secret` header)
 
-You may need to update the API base URL or authentication header in `script.js` if your backend is running on a different host or port.
+You may need to update the API base URL when prompted or authentication header in `script.js` if your backend is running on a different host or port.
 
 ---
 
 ## Customization
 
-- **API URL:** Change the backend API base URL in `script.js` if needed
+- **API URL endpoints:** Change the backend API enpoints in `script.js` if needed 
 - **Map Data:** Adjust data handling in `script.js` to match your backend's response format
 - **Styling:** Modify `style.css` and `map.css` for custom themes
 - **Controls:** Add or remove dashboard controls in the HTML and update their logic in `script.js`
