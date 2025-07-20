@@ -88,15 +88,9 @@ You may need to update the API base URL or authentication header in `script.js` 
 
 ## Screenshots
 
-![Dashboard Screenshot](screenshots/screenshot.png)
+![Dashboard Screenshot](screenshots/screenshotdarkmode.png)
+![Dashboard Screenshot](screenshots/screenshotlightmode.png)
 
----
-
-## License
-
-This project is open source and available under the MIT License.
-
----
 
 ## Related Project
 
