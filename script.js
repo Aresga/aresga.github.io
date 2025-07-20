@@ -1,6 +1,10 @@
-let API_BASE_URL = prompt("Enter the API base URL:", "http://localhost:8000") || "http://192.168.1.69:8000";
+// let API_BASE_URL = "http://localhost:8000";
+// let API_KEY = "clearsky13";
 
-// Wait for DOM () to be fully loaded
+let API_BASE_URL = prompt("Enter the API base URL:", "http://localhost:8000") || "http://localhost:8000";
+let API_KEY = prompt("Enter the API key:", "clearsky13") || "clearsky13";
+
+// Wait for DOM (doc obj model) to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // real-world location for the map background
 	// this will be the center of the nfz e.g hive campus 
@@ -132,8 +136,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const response = await fetch(`${API_BASE_URL}/drones`);
             // const response = await fetch('http://192.168.1.69:8000/drones');
-            if (!response.ok) throw new Error(`HTTP error ${response.status}`);
-            const drones = await response.json();
+            if (!response.ok) 
+				throw new Error(`HTTP error ${response.status}`);
+             
+			const drones = await response.json();
 
             // Update last fetch time
             document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
@@ -147,6 +153,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			drones.forEach(drone => {
 				// Convert simulation coordinates to real-world coordinates
 				// Simulation uses meters, so we convert to lat/lng offset
+				// accounting got the longitute being different at the diffrent lat, formula: 
+				// 1 degree of latitude = 111,320 units 
+				// 1 degree of longitude = 111,320 * cos(latitude) units
 				const metersToLatDeg = 1 / 111320; // Approximate conversion
 				const metersToLngDeg = 1 / (111320 * Math.cos(realWorldCenter[0] * Math.PI / 180));
 				
@@ -162,28 +171,28 @@ document.addEventListener('DOMContentLoaded', function() {
 				);
 				
 				const color = distance <= 1000 ? 'red' : 'green';
-				activeDrones.add(drone.owner_id);
+				activeDrones.add(drone.id);
 
 				// a marker is a drone icon with a short ID 
 				// we check if the marker is already there
-				if (droneMarkers[drone.owner_id]) {
+				if (droneMarkers[drone.id]) {
 					// If marker exists, update its position
-					droneMarkers[drone.owner_id].setLatLng(position);
+					droneMarkers[drone.id].setLatLng(position);
 					
 					// Update the icon color and ID
-					const shortId = drone.owner_id.toString().slice(-3);
+					// const shortId = drone.id.toString().slice(-3);
+					const ownerIdDisplay = String(drone.owner_id).padStart(2, '0');
 					const updatedIcon = L.divIcon({
-						html: `<div class="drone-icon" style="background-color: ${color};">${shortId}</div>`,
+						html: `<div class="drone-icon" style="background-color: ${color};">${ownerIdDisplay}</div>`,
 						className: 'drone-marker',
-						iconSize: [20, 20]
+						iconSize: [15, 15]
 					});
-					droneMarkers[drone.owner_id].setIcon(updatedIcon);
+					droneMarkers[drone.id].setIcon(updatedIcon);
 					
 					// Update popup content
-					droneMarkers[drone.owner_id].setPopupContent(`
+					droneMarkers[drone.id].setPopupContent(`
 						<div class="drone-popup">
-							<div class="drone-id">Drone ID: ${drone.owner_id}</div>
-							<div class="drone-owner">Owner: ${drone.first_name || 'Unknown'}</div>
+							<div class="drone-id">Drone ID: ${drone.id}</div>
 							<div class="drone-position">Position: [${drone.x.toFixed(0)}, ${drone.y.toFixed(0)}]</div>
 							<div class="drone-altitude">Altitude: ${drone.z || 0} units</div>
 							<div class="drone-status">Status: ${color === 'red' ? 'IN VIOLATION' : 'OK'}</div>
@@ -191,20 +200,21 @@ document.addEventListener('DOMContentLoaded', function() {
 					`);
                 } else {
                     // Otherwise, create a new marker with drone icon - Use shorter ID for cleaner display
-                    const shortId = drone.owner_id.toString().slice(-2); // Get last 2 characters of the ID
+                    // const shortId = drone.id.toString().slice(-2);
+					const ownerIdDisplay = String(drone.owner_id).padStart(2, '0');
                     const droneIcon = L.divIcon({
-                        html: `<div class="drone-icon" style="background-color: ${color};">${shortId}</div>`,
+                        html: `<div class="drone-icon" style="background-color: ${color};">${ownerIdDisplay}</div>`,
                         className: 'drone-marker',
-                        iconSize: [20, 20] // Slightly smaller icons
+                        iconSize: [15, 15] // Slightly smaller icons
                     });
                     
-                    droneMarkers[drone.owner_id] = L.marker(position, { 
+                    droneMarkers[drone.id] = L.marker(position, { 
                         icon: droneIcon,
                         zIndexOffset: 1000
                     })
 					.bindPopup(`
 						<div class="drone-popup">
-							<div class="drone-id">Drone ID: ${drone.owner_id}</div>
+							<div class="drone-id">Drone ID: ${drone.id}</div>
 							<div class="drone-owner">Owner: ${drone.first_name || 'Unknown'}</div>
 							<div class="drone-position">Position: [${drone.x.toFixed(0)}, ${drone.y.toFixed(0)}]</div>
 							<div class="drone-altitude">Altitude: ${drone.z || 0} units</div>
@@ -243,12 +253,12 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // IMPORTANT: Fixed header format for X-Secret
 			const headers = {
-				'X-Secret':'clearsky13'
+				'X-Secret': API_KEY,
 			};
 
             const response = await fetch(`${API_BASE_URL}/nfz`, { headers });
 
-			console.log('Sending request to:', 'http://192.168.1.69:8000/nfz');
+			console.log('Sending request to:', `${API_BASE_URL}/nfz`);
 			console.log('With headers:', headers);
             if (!response.ok) {
                 throw new Error(`HTTP error ${response.status}`);
@@ -282,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const html = `
                     <div class="violation-item">
                         <div class="violation-time">${timestamp}</div>
-                        <div class="violation-owner">${v.owner_first_name} ${v.owner_last_name}</div>
+                        <div class="violation-owner">${v.id} ${v.owner_first_name} ${v.owner_last_name}</div>
                         <div class="violation-contact">
                             <span class="label">Phone:</span> ${v.owner_phone} <br>
 							<span class="label">ssn:</span> ${v.owner_ssn}

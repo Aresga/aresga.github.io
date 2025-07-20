@@ -85,9 +85,9 @@ header {
     color: #2ecc40;
     font-family: "Share Tech Mono", "Iceland", monospace;
     vertical-align: middle;
-    width: 230px;              /* Set your desired fixed width */
-    min-width: 280px;          /* Optional: minimum width */
-    max-width: 320px;          /* Optional: maximum width */
+    width: 230px;             
+    min-width: 280px;         
+    max-width: 320px;          
     white-space: nowrap;       /* Prevent text from wrapping */
     overflow: hidden;          /* Hide overflow */
     text-overflow: ellipsis;   /* Show ... for overflow */
@@ -240,6 +240,7 @@ main {
 /* Violations */
 .violations-container {
     display: flex;
+	
     flex-direction: column;
 }
 
