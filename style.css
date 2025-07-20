@@ -1,0 +1,366 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.dark-mode {
+    filter: invert(1) hue-rotate(180deg);
+	background-color: #000000;
+}
+
+body {
+    font-family: "Share Tech Mono", "Iceland", monospace;
+    line-height: 1.9;
+    color: #333;
+    background-color: #f5f7fa;
+    padding-bottom: 40px;
+}
+
+.iceland-regular {
+  font-family: "Iceland", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.share-tech-mono-regular {
+  font-family: "Share Tech Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+h1, h2, h3 {
+    font-weight: 600;
+}
+
+/* Header */
+header {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    height: 60px;
+    margin-right: 20px;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dark-mode-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #020c21;
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.99rem;
+    transition: background-color 0.2s;
+	font-family: "Share Tech Mono", "Iceland", monospace !important;
+}
+
+.status-message {
+    margin-left: 15px;
+    font-size: 1rem;
+    color: #2ecc40;
+    font-family: "Share Tech Mono", "Iceland", monospace;
+    vertical-align: middle;
+    width: 230px;              /* Set your desired fixed width */
+    min-width: 280px;          /* Optional: minimum width */
+    max-width: 320px;          /* Optional: maximum width */
+    white-space: nowrap;       /* Prevent text from wrapping */
+    overflow: hidden;          /* Hide overflow */
+    text-overflow: ellipsis;   /* Show ... for overflow */
+    display: inline-block;     /* Keep it inline with buttons */
+}
+
+.health-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #020c21;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.99rem;
+    transition: background-color 0.2s;
+	font-family: "Share Tech Mono", "Iceland", monospace !important;
+}
+
+.health-button:hover {
+    background-color: #530526;
+}
+
+.api-status {
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid;
+}
+
+.api-status.online {
+    color: #059669;
+    background-color: #d1fae5;
+    border-color: #a7f3d0;
+}
+
+.api-status.offline {
+    color: #dc2626;
+    background-color: #fee2e2;
+    border-color: #fca5a5;
+}
+
+.api-status.unknown {
+    color: #6b7280;
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+}
+
+header p {
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+/* Main Content */
+main {
+    max-width: 1510px;
+    margin: 15px auto;
+    padding: 0 20px;
+}
+
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+@media (min-width: 1200px) {
+    .dashboard-container {
+        grid-template-columns: 3fr 2fr;
+    }
+}
+
+/* Panels */
+.map-container, .violations-container {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+	min-width: 650px; 
+}
+
+.panel-header {
+    background-color: #f9fafb;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-header h2 {
+    font-size: 1.25rem;
+    color: #111827;
+}
+
+/* Map */
+#map {
+    height: 800px;
+    width: 100%;
+    z-index: 1;
+}
+
+.map-info {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    background-color: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    font-size: 0.9rem;
+}
+
+.legend {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.color-box {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.green {
+    background-color: green;
+}
+
+.red {
+    background-color: red;
+}
+
+/* Violations */
+.violations-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.violations-info {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+}
+
+.violations-list {
+    list-style-type: none;
+    padding: 0;
+    overflow-y: auto;
+    max-height: 800px;
+    flex-grow: 1;
+}
+
+.violations-list li {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.violations-list li:last-child {
+    border-bottom: none;
+}
+
+.no-violations, .error {
+    color: #6b7280;
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.error {
+    color: #dc2626;
+}
+
+/* Violation Items */
+.violation-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.violation-time {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.violation-owner {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #111827;
+}
+
+.violation-contact {
+    margin-top: 5px;
+}
+
+.violation-details {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #4b5563;
+}
+
+.label {
+    font-weight: 500;
+    color: #374151;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.refresh-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #020c21;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+	font-family: "Share Tech Mono", "Iceland", monospace !important;
+}
+
+.refresh-button:hover {
+    background-color: #530526;
+}
+
+.status {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.status-indicator {
+    font-size: 0.85rem;
+    color: #059669;
+    font-weight: 500;
+    background-color: #d1fae5;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #a7f3d0;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.disclaimer {
+    margin-top: 5px;
+    font-size: 0.8rem;
+}
